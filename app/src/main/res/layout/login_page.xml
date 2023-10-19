@@ -18,14 +18,14 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_height="2.5in"
+        android:layout_height="3in"
         app:cardCornerRadius="35dp"
 
         >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="4in"
             android:orientation="vertical"
             android:padding = "28dp">
 
@@ -60,8 +60,9 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"/>
+                android:layout_height="50dp"
+                android:inputType="textEmailAddress"
+                android:hint="Username"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="40dp"/>
@@ -75,13 +76,58 @@
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"/>
+                android:layout_height="50dp"
+                android:inputType="textPassword"
+               android:hint="password"
+                />
 
 
 
 
             />
+
+            <CheckBox
+                android:id="@+id/checkBox2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Remember me" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="LOGIN"
+                android:layout_marginBottom="15dp"
+                />
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+
+
+                >
+
+                <Button
+                    android:id="@+id/button5"
+                    android:layout_width="2in"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Create Account"
+                    android:layout_marginRight="5dp"
+                    />
+
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="2in"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Forgot Password"
+                    android:layout_marginLeft="5dp"/>
+            </LinearLayout>
 
 
 
