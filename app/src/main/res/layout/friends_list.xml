@@ -13,12 +13,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:layout_marginBottom="603dp"
         android:src="@drawable/cooltext445170824846131"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/imageView6"
+        android:text="Back" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -61,7 +67,7 @@
                     android:layout_width="80dp"
                     android:layout_height="110dp"
                     android:layout_weight="1"
-                    android:src="@drawable/no_profile_pic"
+                    android:src="@drawable/generic_user_image"
 
 
                     />
@@ -90,7 +96,7 @@
                     android:layout_width="80dp"
                     android:layout_height="110dp"
                     android:layout_weight="1"
-                    android:src="@drawable/no_profile_pic"
+                    android:src="@drawable/generic_user_image"
 
 
                     />
@@ -117,7 +123,7 @@
                     android:layout_width="80dp"
                     android:layout_height="110dp"
                     android:layout_weight="1"
-                    android:src="@drawable/no_profile_pic"
+                    android:src="@drawable/generic_user_image"
 
 
                     />

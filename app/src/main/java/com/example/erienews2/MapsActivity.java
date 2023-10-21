@@ -26,8 +26,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(binding.getRoot());
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
@@ -49,7 +48,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 new LatLng(42.04548661463424, -80.16806429247939), new LatLng(42.18903873716287, -79.96800619322025));
 
         mMap.addMarker(new MarkerOptions().position(erieBounds.getCenter()).title("Marker in Erie"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(erieBounds, 0));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(erieBounds, 100));
 
         //Prevent zoom from being too great
         googleMap.setMaxZoomPreference(15.0f);

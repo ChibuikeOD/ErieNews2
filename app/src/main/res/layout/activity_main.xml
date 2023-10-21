@@ -17,24 +17,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <View
-        android:id="@+id/view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="108dp"
-        app:layout_constraintStart_toStartOf="@+id/include"
-        app:layout_constraintTop_toTopOf="@+id/include" />
-
-    <View
-        android:id="@+id/view2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/include"
-        app:layout_constraintTop_toTopOf="@+id/include" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/mapImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="276dp"
@@ -43,5 +28,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/pacountyflag" />
+
+    <Button
+        android:id="@+id/friendListButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mapImage"
+        android:layout_marginTop="250dp"
+        app:layout_constraintTop_toTopOf="@+id/mapImage"
+        android:text="Friends List" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

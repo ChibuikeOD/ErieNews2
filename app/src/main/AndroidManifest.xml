@@ -29,9 +29,25 @@
             android:value="AIzaSyCvStRybZGe1umxIGxeUp89WKfp3-ZeB_s" />
 
         <activity
+            android:name=".LoginActivity"
+            android:exported="true"
+            />
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="true"
+            />
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:exported="true"
+            />
+        <activity
             android:name=".MapsActivity"
             android:exported="true"
             android:label="@string/title_activity_maps" />
+        <activity
+            android:name=".FriendsListActivity"
+            android:exported="true"
+            />
         <activity
             android:name=".MainActivity"
             android:exported="true"
