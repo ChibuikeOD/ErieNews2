@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "326211213721",
+    "project_id": "erienews-62221",
+    "storage_bucket": "erienews-62221.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:326211213721:android:acd659dcc0b6339ed0db08",
+        "android_client_info": {
+          "package_name": "com.example.erienews2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaSc3rl-wJdUGuhNy59F9QiQDiri6Up_s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
