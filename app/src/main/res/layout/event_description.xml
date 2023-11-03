@@ -46,6 +46,7 @@
                 android:textSize="18dp"
                 />
             <EditText
+                android:id = "@+id/eventDate"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:hint = "mm/dd/yy"/>
@@ -58,12 +59,36 @@
                 />
 
             <EditText
+                android:id = "@+id/eventDesc"
                 android:layout_width="match_parent"
                 android:layout_height= "180dp"
                 android:hint = "Event Description..."
                 android:layout_marginTop="10dp"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp"
+                >
 
+                <Button
+                    android:id="@+id/button4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Back"
+                    android:layout_marginRight="5dp"
+                    />
+
+                <Button
+                    android:id="@+id/button5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="5dp"
+                    android:text="Next" />
+            </LinearLayout>
 
 
         </LinearLayout>

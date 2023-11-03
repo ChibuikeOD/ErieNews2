@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ErieNews2"
         tools:targetApi="31">
-
+        <activity
+            android:name=".EventDescActivity"
+            android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -30,24 +32,26 @@
 
         <activity
             android:name=".LoginActivity"
-            android:exported="true"
-            />
+            android:exported="true" />
         <activity
             android:name=".RegisterActivity"
-            android:exported="true"
-            />
+            android:exported="true" />
         <activity
             android:name=".ForgotPasswordActivity"
-            android:exported="true"
-            />
+            android:exported="true" />
         <activity
             android:name=".MapsActivity"
             android:exported="true"
             android:label="@string/title_activity_maps" />
+        <activity android:name=".AddEventActivity"
+            android:exported="true">
+                <intent-filter>
+                    <action android:name="android.intent.action.VIEW"/>
+                </intent-filter>
+        </activity>
         <activity
             android:name=".FriendsListActivity"
-            android:exported="true"
-            />
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

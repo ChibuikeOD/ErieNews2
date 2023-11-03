@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class LoginActivity extends AppCompatActivity {
     EditText username;
     EditText password;
@@ -21,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page);
 
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         //Username and Password of user
         String trueUsername;
         String truePassword;
