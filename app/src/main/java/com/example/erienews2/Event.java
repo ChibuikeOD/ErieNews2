@@ -3,6 +3,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.UUID;
 
 public class Event implements Serializable
@@ -11,8 +12,8 @@ public class Event implements Serializable
     private String userID;
     private String name;
     private String eventDate;
-    private String startTime;
-    private String endTime;
+    private Date startTime;
+    private Date endTime;
 
     private String desription;
     private String address;
@@ -36,11 +37,11 @@ public class Event implements Serializable
         this.desription = desription;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
@@ -53,17 +54,19 @@ public class Event implements Serializable
         return this.name;
     }
 
+    public String getAddress(){ return this.address; }
+
     public String getEventDate()
     {
         return this.eventDate;
     }
 
-    public String getStartTime()
+    public Date getStartTime()
     {
         return this.startTime;
     }
 
-    public String getEndTime()
+    public Date getEndTime()
     {
         return this.endTime;
     }

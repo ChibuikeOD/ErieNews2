@@ -41,15 +41,15 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text = "Event Date"
+                android:text = "Event Address"
                 android:layout_marginTop="10dp"
                 android:textSize="18dp"
                 />
             <EditText
-                android:id = "@+id/eventDate"
+                android:id = "@+id/eventAddress"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:hint = "mm/dd/yy"/>
+                android:hint = "Address"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

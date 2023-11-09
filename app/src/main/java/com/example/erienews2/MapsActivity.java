@@ -1,10 +1,14 @@
 package com.example.erienews2;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
 
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,8 +17,12 @@ import android.app.DatePickerDialog;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,7 +33,12 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.erienews2.databinding.ActivityMapsBinding;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.SupportMapFragment;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -38,6 +51,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     CardView eventCardView;
     Button eventBackButton;
+
+    Date chosenDateAndTime;
+
+    ArrayList<Event> eventList;
+    ArrayList<Marker> markerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +90,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //Use to get date and time
         final Calendar c = Calendar.getInstance();
+        chosenDateAndTime = Calendar.getInstance().getTime();
 
         //Instantiate button and set text to current day
         pickDateButton = findViewById(R.id.pickDateButton);
@@ -96,6 +115,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 pickDateButton.setText((month + 1) + "/" + dayOfMonth + "/" + year);
 
                                 //Call function that selects all event markers for date and time
+                                chosenDateAndTime.setDate(dayOfMonth);
+                                chosenDateAndTime.setMonth(month);
+                                chosenDateAndTime.setYear(year);
+
+                                ReloadMarkers();
                             }
                         },
                         year, month, day);
@@ -104,7 +128,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        //Instantiate button and set text to current day
+        //Instantiate button and set text to current time
         pickTimeButton = findViewById(R.id.pickTimeButton);
         pickTimeButton.setText(c.get(Calendar.HOUR_OF_DAY) + ":" + String.format("%02d", c.get(Calendar.MINUTE)));
 
@@ -125,6 +149,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 pickTimeButton.setText(hourOfDay + ":" + String.format("%02d", minute));
 
                                 //Call function that selects all event markers for date and time
+                                chosenDateAndTime.setHours(hourOfDay);
+                                chosenDateAndTime.setMinutes(minute);
+
+                                ReloadMarkers();
                             }
                         },
                         hour, minute, false);
@@ -163,19 +191,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        //Reload events based on date and time
-        String selectedTime = pickTimeButton.getText().toString();
-        String selectedDate = pickDateButton.getText().toString();
-
-        //Use selected time and date to get events from database on that day past that time
-        ArrayList<String> eventNameList;
-        //ArrayList<Info> eventInfoList;
-        ArrayList<LatLng> eventLatLngList;
-
-        //Example marker to be instantiated
-        Marker markerExample = mMap.addMarker(new MarkerOptions()
-                .position(erieBounds.getCenter())
-                .title("Example Event"));
+        //Reload the Markers in the scene
+        ReloadMarkers();
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener(){
             @Override
@@ -193,4 +210,94 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
+
+    private void ReloadMarkers(){
+        //Open path
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference eventsReference = database.getReference("Events");
+
+        //Get all settings
+        //Time (Time/Date variable?)
+        String selectedTime = pickTimeButton.getText().toString();
+        //Date
+        String selectedDate = pickDateButton.getText().toString();
+        //Advanced (Not yet implemented)
+
+        mMap.clear();
+
+        //Get all events that fit the above criteria from the database and put them into lists we can reference from
+        eventList = new ArrayList<Event>();
+
+        //For every marker
+        eventsReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //For each event entry, create a local Event object then instantiate it
+                for (DataSnapshot eventSnapshot : dataSnapshot.getChildren()) {
+                    //Create instance of event
+                    Event newEvent = eventSnapshot.getValue(Event.class);
+                    newEvent.setDesription(eventSnapshot.child("eventDesc").getValue(String.class));
+                    newEvent.setAddress(eventSnapshot.child("eventAddress").getValue(String.class));
+                    newEvent.setName(eventSnapshot.child("eventName").getValue(String.class));
+                    newEvent.setStartTime(eventSnapshot.child("eventStart").getValue(Date.class));
+                    newEvent.setEndTime(eventSnapshot.child("eventEnd").getValue(Date.class));
+
+                    if(chosenDateAndTime.after(newEvent.getStartTime()) && chosenDateAndTime.before(newEvent.getEndTime())){
+                        //Get its LatLng from address
+                        LatLng markerLatLng = getLocationFromAddress(null, eventSnapshot.child("eventAddress").getValue(String.class));
+
+                        //Add it to map
+                        Marker markerExample = mMap.addMarker(new MarkerOptions()
+                                .position(markerLatLng)
+                                .title(eventSnapshot.child("eventName").getValue(String.class)));
+
+                        //Add instance to the list of events
+                        eventList.add(newEvent);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle any errors here
+            }
+        });
+            //Instantiate marker with event title at its location
+    }
+
+    //Get Address function
+//https://stackoverflow.com/questions/42626735/geocoding-converting-an-address-in-string-form-into-latlng-in-googlemaps-jav
+    public LatLng getLocationFromAddress(Context context, String inputtedAddress) {
+
+        Geocoder coder = new Geocoder(this, Locale.getDefault());
+        List<Address> address;
+        LatLng resLatLng = null;
+
+        try {
+            // May throw an IOException
+            address = coder.getFromLocationName(inputtedAddress, 5);
+            if (address == null) {
+                return null;
+            }
+
+            if (address.size() == 0) {
+                return null;
+            }
+
+            Address location = address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+
+            resLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+        } catch (IOException ex) {
+
+            ex.printStackTrace();
+            Toast.makeText(context, ex.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
+        return resLatLng;
+    }
 }
+//https://www.geeksforgeeks.org/how-to-save-data-to-the-firebase-realtime-database-in-android/
+//Query order by child

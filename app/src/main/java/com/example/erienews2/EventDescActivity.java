@@ -13,13 +13,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.security.Timestamp;
+import java.sql.Time;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class EventDescActivity extends AppCompatActivity
 {
 
-    EditText eventDate;
+    EditText eventAddress;
     EditText eventDesc;
 
     Button backButton;
@@ -39,7 +42,7 @@ public class EventDescActivity extends AppCompatActivity
         FirebaseApp.initializeApp(this);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         eventDesc = findViewById(R.id.eventDesc);
-        eventDate = findViewById(R.id.eventDate);
+        eventAddress = findViewById(R.id.eventAddress);
         backButton = findViewById(R.id.button4);
         nextButton = findViewById(R.id.button5);
 
@@ -60,12 +63,15 @@ public class EventDescActivity extends AppCompatActivity
                 //    Intent intent = new Intent(EventDescActivity.this, AddEventActivity.class);
                 createdEvent = new Event();
                 createdEvent.setDesription(eventDesc.getText().toString());
-                createdEvent.setEventDate(eventDate.getText().toString());
+                createdEvent.setAddress(eventAddress.getText().toString());
                 createdEvent.setName(getIntent().getStringExtra("keyName"));
-                createdEvent.setStartTime(getIntent().getStringExtra("keyStart"));
-                createdEvent.setEndTime(getIntent().getStringExtra("keyEnd"));
+                createdEvent.setStartTime((Date) getIntent().getSerializableExtra("keyStart"));
+                createdEvent.setEndTime((Date) getIntent().getSerializableExtra("keyEnd"));
 
-                mDatabase.child("Events").child(createdEvent.getUserID()).setValue(eventMap(createdEvent, createdEvent.getName(), createdEvent.getEventDate(), createdEvent.getStartTime(), createdEvent.getEndTime(), createdEvent.getDesription()));
+                mDatabase.child("Events").child(createdEvent.getUserID()).setValue(eventMap(createdEvent, createdEvent.getName(), createdEvent.getAddress(), createdEvent.getStartTime(), createdEvent.getEndTime(), createdEvent.getDesription()));
+
+                Intent intent = new Intent(EventDescActivity.this, MainActivity.class);
+                startActivity(intent);
                 EventDescActivity.this.finish();
             }
 
@@ -78,11 +84,11 @@ public class EventDescActivity extends AppCompatActivity
 
 
 
-    public Map<String, Object> eventMap(Event event, String eName, String eDate, String eStart, String eEnd, String eDesc) //function to change account object into a map, to be uploaded into the database
+    public Map<String, Object> eventMap(Event event, String eName, String eAddress, Date eStart, Date eEnd, String eDesc) //function to change account object into a map, to be uploaded into the database
     {
         HashMap<String, Object> result = new HashMap<>();
         result.put("eventName", eName);
-        result.put("eventDate", eDate);
+        result.put("eventAddress", eAddress);
         result.put("eventStart", eStart);
         result.put("eventEnd", eEnd);
         result.put("eventDesc", eDesc);

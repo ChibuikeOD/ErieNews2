@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
     ImageView mapImage;
     Button friendListButton;
+    Button createEventButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, FriendsListActivity.class);
+                startActivity(intent);
+
+                MainActivity.this.finish();
+            }
+        });
+
+        createEventButton = findViewById(R.id.createEventButton);
+        createEventButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AddEventActivity.class);
                 startActivity(intent);
 
                 MainActivity.this.finish();
