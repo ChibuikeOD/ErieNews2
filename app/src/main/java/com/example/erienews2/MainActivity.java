@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,17 +13,11 @@ public class MainActivity extends AppCompatActivity {
     Button friendListButton;
     Button createEventButton;
 
-    Account loggedUser;
-    String loggedUname;
-    TextView Uname;
-    String loggedPass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent();
-        loggedUname = getIntent().getStringExtra("username");
         mapImage = findViewById(R.id.mapImage);
         mapImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,8 +28,6 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.finish();
             }
         });
-        Uname = findViewById(R.id.textView15);
-        Uname.setText("Welcome " + loggedUname);
 
         friendListButton = findViewById(R.id.friendListButton);
         friendListButton.setOnClickListener(new View.OnClickListener() {
