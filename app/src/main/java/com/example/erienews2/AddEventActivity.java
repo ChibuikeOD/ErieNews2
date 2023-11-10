@@ -81,7 +81,10 @@ public class AddEventActivity extends FragmentActivity {
                                 //Set button text to selected day
                                 pickStartDateButton.setText((month + 1) + "/" + dayOfMonth + "/" + year);
 
-                                //Call function that selects all event markers for date and time
+                                //Change startDateTime
+                                startDateTime.setYear(year);
+                                startDateTime.setMonth(month);
+                                startDateTime.setDate(dayOfMonth);
                             }
                         },
                         year, month, day);
@@ -110,7 +113,9 @@ public class AddEventActivity extends FragmentActivity {
                                 //Set button text to selected time
                                 pickStartTimeButton.setText(hourOfDay + ":" + String.format("%02d", minute));
 
-                                //Call function that selects all event markers for date and time
+                                //Change startDateTime
+                                startDateTime.setHours(hourOfDay);
+                                startDateTime.setMinutes(minute);
                             }
                         },
                         hour, minute, false);
@@ -130,7 +135,7 @@ public class AddEventActivity extends FragmentActivity {
                 //Use the current date as the default date in the picker.
                 final Calendar c = Calendar.getInstance();
                 int year = c.get(Calendar.YEAR);
-                int month = c.get(Calendar.MONTH) + 1;
+                int month = c.get(Calendar.MONTH);
                 int day = c.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
@@ -141,7 +146,10 @@ public class AddEventActivity extends FragmentActivity {
                                 //Set button text to selected day
                                 pickEndDateButton.setText((month + 1) + "/" + dayOfMonth + "/" + year);
 
-                                //Call function that selects all event markers for date and time
+                                //Change endDateTime
+                                endDateTime.setYear(year);
+                                endDateTime.setMonth(month);
+                                endDateTime.setDate(dayOfMonth);
                             }
                         },
                         year, month, day);
@@ -170,7 +178,9 @@ public class AddEventActivity extends FragmentActivity {
                                 //Set button text to selected time
                                 pickEndTimeButton.setText(hourOfDay + ":" + String.format("%02d", minute));
 
-                                //Call function that selects all event markers for date and time
+                                //Change endDateTime
+                                endDateTime.setHours(hourOfDay);
+                                endDateTime.setMinutes(minute);
                             }
                         },
                         hour, minute, false);

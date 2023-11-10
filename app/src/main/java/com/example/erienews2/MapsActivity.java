@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.app.DatePickerDialog;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -40,6 +41,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -51,6 +54,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     CardView eventCardView;
     Button eventBackButton;
+    TextView eventNameText;
 
     Date chosenDateAndTime;
 
@@ -70,6 +74,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         eventCardView = findViewById(R.id.eventCardView);
         eventCardView.setVisibility(View.GONE);
+
+        eventNameText = findViewById(R.id.eventNameText);
 
         eventBackButton = findViewById(R.id.eventBackButton);
         eventBackButton.setOnClickListener(new View.OnClickListener() {
@@ -200,7 +206,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 //Get title from the marker
                 String eventTitle = marker.getTitle();
 
-                //Use eventTitle to get the rest of the information of the event from the database
+                //Set screen information to the event information of title
+                updateDescription(eventTitle);
                 //Set screen information to the event information of title
 
                 //Pull up screen showing the information of the selected event
@@ -297,6 +304,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         return resLatLng;
+    }
+
+    public void updateDescription(String eventName){
+        //Index of event in the event list
+        int eventIndex = 0;
+        //Get the event that we are using
+        for (int i = 0; i < eventList.size(); i++){
+            if (eventList.get(i).getName().equals(eventName)){
+                eventIndex = i;
+            }
+        }
+        eventNameText.setText(eventList.get(eventIndex).getName());
     }
 }
 //https://www.geeksforgeeks.org/how-to-save-data-to-the-firebase-realtime-database-in-android/
