@@ -1,9 +1,13 @@
 package com.example.erienews2;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -41,9 +45,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
@@ -52,14 +54,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Button pickDateButton;
     Button pickTimeButton;
 
-    CardView eventCardView;
-    Button eventBackButton;
-    TextView eventNameText;
-
     Date chosenDateAndTime;
 
     ArrayList<Event> eventList;
-    ArrayList<Marker> markerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,19 +68,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        eventCardView = findViewById(R.id.eventCardView);
-        eventCardView.setVisibility(View.GONE);
-
-        eventNameText = findViewById(R.id.eventNameText);
-
-        eventBackButton = findViewById(R.id.eventBackButton);
-        eventBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                eventCardView.setVisibility(View.GONE);
-            }
-        });
 
         backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -206,12 +190,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 //Get title from the marker
                 String eventTitle = marker.getTitle();
 
-                //Set screen information to the event information of title
-                updateDescription(eventTitle);
-                //Set screen information to the event information of title
+                //Get event that that title corresponds to
+                getEventIndex(eventTitle);
 
-                //Pull up screen showing the information of the selected event
-                eventCardView.setVisibility(View.VISIBLE);
+                int eventIndex = getEventIndex(eventTitle);
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("event", eventList.get(eventIndex));
+
+                //Start fragment
+                MapEventDescActivityFragment eventDescFragment = new MapEventDescActivityFragment();
+                eventDescFragment.setArguments(bundle);
+
+                //Set screen information to the event information of title
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainer, eventDescFragment) // R.id.fragmentContainer is the container in your activity layout
+                        .addToBackStack(null)
+                        .commit();
 
                 return false;
             }
@@ -306,16 +301,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return resLatLng;
     }
 
-    public void updateDescription(String eventName){
+    public int getEventIndex(String eventName) {
         //Index of event in the event list
         int eventIndex = 0;
         //Get the event that we are using
-        for (int i = 0; i < eventList.size(); i++){
-            if (eventList.get(i).getName().equals(eventName)){
+        for (int i = 0; i < eventList.size(); i++) {
+            if (eventList.get(i).getName().equals(eventName)) {
                 eventIndex = i;
             }
         }
-        eventNameText.setText(eventList.get(eventIndex).getName());
+
+        return (eventIndex);
     }
 }
 //https://www.geeksforgeeks.org/how-to-save-data-to-the-firebase-realtime-database-in-android/
