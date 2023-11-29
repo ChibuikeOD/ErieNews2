@@ -131,5 +131,19 @@ public class AddFriendActivity extends AppCompatActivity {
 
         });
 
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent2 = new Intent(AddFriendActivity.this, FriendsListActivity.class);
+                intent2.putExtra("loggedUser", loggedUser);
+                startActivity(intent2);
+
+               AddFriendActivity.this.finish();
+
+
+            }
+        });
+
     }
 }
