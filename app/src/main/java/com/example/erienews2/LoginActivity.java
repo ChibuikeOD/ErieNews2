@@ -1,5 +1,7 @@
 package com.example.erienews2;
 
+import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -64,8 +66,8 @@ public class LoginActivity extends AppCompatActivity {
                     String typedPass = password.getText().toString();
 
 
-                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();//find username
-                    Query query = databaseReference.child("users").orderByChild("username").equalTo(typedName);
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");//find username
+                    Query query = databaseReference.orderByChild("username").equalTo(typedName);
                     query.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -77,7 +79,13 @@ public class LoginActivity extends AppCompatActivity {
 
                             }
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            intent.putExtra("username", loggedUser.getUsername());
+                            intent.putExtra("loggedUser", loggedUser);
+
+                            if(loggedUser == null)
+                            {
+                                Account blankUser = new Account();
+                                blankUser.setUsername("blank User");
+                            }
 
                             Toast.makeText(LoginActivity.this, loggedUser.getUsername(), Toast.LENGTH_SHORT).show();
                             startActivity(intent);

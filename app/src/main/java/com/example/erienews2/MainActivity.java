@@ -24,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent();
-        loggedUname = getIntent().getStringExtra("username");
+        Intent intent = getIntent();
+        loggedUser = (Account)intent.getSerializableExtra("loggedUser");
 
         mapImage = findViewById(R.id.mapImage);
         mapImage.setOnClickListener(new View.OnClickListener() {
@@ -39,13 +39,21 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Uname = findViewById(R.id.textView15);
-        Uname.setText("Welcome " + loggedUname);
+
+        if(loggedUser == null)
+        {
+            Account blankUser = new Account();
+            blankUser.setUsername("blank User");
+            loggedUser = blankUser;
+        }
+        Uname.setText("Welcome " + loggedUser.getUsername());
 
         friendListButton = findViewById(R.id.friendListButton);
         friendListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, FriendsListActivity.class);
+                intent.putExtra("loggedUser", loggedUser);
                 startActivity(intent);
 
                 MainActivity.this.finish();

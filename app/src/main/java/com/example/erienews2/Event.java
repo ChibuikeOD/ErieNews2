@@ -80,5 +80,9 @@ public class Event implements Serializable
     {
         return this.desription;
     }
+
+    public Account[] getAttendees() {
+        return attendees;
+    }
 }
 

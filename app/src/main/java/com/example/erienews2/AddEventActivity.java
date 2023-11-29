@@ -31,6 +31,7 @@ import java.util.Date;
 public class AddEventActivity extends FragmentActivity {
     EditText eventName;
 
+
     Button pickStartTimeButton;
     Button pickStartDateButton;
     Button pickEndTimeButton;
