@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -64,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
                 newAccount.setPassword( password.getText().toString());
 
 
-                mDatabase.child("users").child(newAccount.getUserID()).setValue(toMap(newAccount, newAccount.getUsername(), newAccount.getPassword()))
+                mDatabase.child("users").child(newAccount.getUserID()).setValue(toMap(newAccount, newAccount.getUsername(), newAccount.getPassword(), newAccount.getFriendsList()))
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -103,11 +104,12 @@ public class RegisterActivity extends AppCompatActivity {
         return TextUtils.isEmpty(str);
     }
 
-    public Map<String, Object> toMap(Account acc, String uName, String pass) //function to change account object into a map, to be uploaded into the database
+    public Map<String, Object> toMap(Account acc, String uName, String pass, List<Account> friends) //function to change account object into a map, to be uploaded into the database
     {
         HashMap<String, Object> result = new HashMap<>();
         result.put("username", uName);
         result.put("password", pass);
+        result.put("friendsList", friends);
         return result;
     }
 

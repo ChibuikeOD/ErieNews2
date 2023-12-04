@@ -19,6 +19,7 @@ public class Account implements Serializable
     {
         userID = UUID.randomUUID().toString(); //generates user id on create
         friendsList = new ArrayList<Account>();
+
     }
 
      void setUsername(String name)

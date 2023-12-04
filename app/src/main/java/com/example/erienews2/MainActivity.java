@@ -28,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         loggedUser = (Account)intent.getSerializableExtra("loggedUser");
 
+        Account def = new Account();
+        def.setUsername("default");
+        loggedUser.addFriend(def);
+
         mapImage = findViewById(R.id.mapImage);
         mapImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
             blankUser.setUsername("blank User");
             loggedUser = blankUser;
         }
+
+
         Uname.setText("Welcome " + loggedUser.getUsername());
 
         friendListButton = findViewById(R.id.friendListButton);
