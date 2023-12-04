@@ -4,34 +4,19 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.Firebase;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
 import java.util.Date;
 
-public class AddEventActivity extends FragmentActivity {
+public class EditEventActivity extends AppCompatActivity {
     EditText eventName;
-
-
     Button pickStartTimeButton;
     Button pickStartDateButton;
     Button pickEndTimeButton;
@@ -47,22 +32,24 @@ public class AddEventActivity extends FragmentActivity {
     Date endDateTime;
 
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_event);
 
-        eventName = findViewById(R.id.edittext12);
+        //Get the event that was passed here
+        Intent intent = getIntent();
+        Event selectedEvent = (Event) intent.getSerializableExtra("selectedEvent");
 
-        //Use to get date and time
-        final Calendar c = Calendar.getInstance();
+        eventName = findViewById(R.id.edittext12);
+        eventName.setText(selectedEvent.getName());
+
         //Create start date at the current created day
-        startDateTime = new Date(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH), 0, 0);
+        startDateTime = new Date(selectedEvent.getStartTime().getYear(), selectedEvent.getStartTime().getMonth(), selectedEvent.getStartTime().getDay(), selectedEvent.getStartTime().getHours(), selectedEvent.getStartTime().getMinutes());
         //Create end date at the current created day plus one
-        endDateTime = new Date(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH) + 1, 0, 0);
+        endDateTime = new Date(selectedEvent.getEndTime().getYear(), selectedEvent.getEndTime().getMonth(), selectedEvent.getEndTime().getDay(), selectedEvent.getEndTime().getHours(), selectedEvent.getEndTime().getMinutes());
 
         //Instantiate button and set text to current day
         pickStartDateButton = findViewById(R.id.pickStartDateButton);
-        pickStartDateButton.setText((c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DAY_OF_MONTH) + "/" + c.get(Calendar.YEAR));
+        pickStartDateButton.setText((startDateTime.getMonth() + 1) + "/" + startDateTime.getDay() + "/" + startDateTime.getYear());
 
         //On Click, bring up date listener, get new date, and reload event markers
         pickStartDateButton.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +62,7 @@ public class AddEventActivity extends FragmentActivity {
                 int day = c.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        AddEventActivity.this,
+                        EditEventActivity.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -96,7 +83,7 @@ public class AddEventActivity extends FragmentActivity {
 
         //Instantiate button and set text to current day
         pickStartTimeButton = findViewById(R.id.pickStartTimeButton);
-        pickStartTimeButton.setText(0 + ":" + String.format("%02d", 0));
+        pickStartTimeButton.setText(startDateTime.getHours() + ":" + String.format("%02d", startDateTime.getMinutes()));
 
         pickStartTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +94,7 @@ public class AddEventActivity extends FragmentActivity {
                 int minute = c.get(Calendar.MINUTE);
 
                 TimePickerDialog timePickerDialog = new TimePickerDialog(
-                        AddEventActivity.this,
+                        EditEventActivity.this,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -127,7 +114,7 @@ public class AddEventActivity extends FragmentActivity {
 
         //Instantiate button and set text to current day
         pickEndDateButton = findViewById(R.id.pickEndDateButton);
-        pickEndDateButton.setText((c.get(Calendar.MONTH) + 1) + "/" + (c.get(Calendar.DAY_OF_MONTH) + 1) + "/" + c.get(Calendar.YEAR));
+        pickEndDateButton.setText((endDateTime.getMonth() + 1) + "/" + endDateTime.getDay() + "/" + endDateTime.getYear());
 
         //On Click, bring up date listener, get new date, and reload event markers
         pickEndDateButton.setOnClickListener(new View.OnClickListener() {
@@ -140,7 +127,7 @@ public class AddEventActivity extends FragmentActivity {
                 int day = c.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        AddEventActivity.this,
+                        EditEventActivity.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -161,7 +148,7 @@ public class AddEventActivity extends FragmentActivity {
 
         //Instantiate button and set text to current day
         pickEndTimeButton = findViewById(R.id.pickEndTimeButton);
-        pickEndTimeButton.setText(0 + ":" + String.format("%02d", 0));
+        pickEndTimeButton.setText(startDateTime.getHours() + ":" + String.format("%02d", startDateTime.getMinutes()));
 
         pickEndTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,7 +159,7 @@ public class AddEventActivity extends FragmentActivity {
                 int minute = c.get(Calendar.MINUTE);
 
                 TimePickerDialog timePickerDialog = new TimePickerDialog(
-                        AddEventActivity.this,
+                        EditEventActivity.this,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -194,43 +181,27 @@ public class AddEventActivity extends FragmentActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddEventActivity.this, MainActivity.class);
+                Intent intent = new Intent(EditEventActivity.this, MainActivity.class);
                 startActivity(intent);
-                AddEventActivity.this.finish();
+                EditEventActivity.this.finish();
             }
         });
+
         nextButton = findViewById(R.id.button3);
-
-
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-           //     Event newEvent = new Event();
-
-            //    newEvent.setName(eventName.getText().toString());
-           //     newEvent.setStartTime(startTime.getText().toString());
-            //    newEvent.setEndTime(endTime.getText().toString());
-           //     createdEvent = newEvent;
                 typedName = eventName.getText().toString();
 
-
-                Intent intent = new Intent(AddEventActivity.this, EventDescActivity.class);
+                Intent intent = new Intent(EditEventActivity.this, EventDescEditActivity.class);
                 intent.putExtra("keyName",typedName);
                 intent.putExtra("keyStart", startDateTime);
                 intent.putExtra("keyEnd", endDateTime);
+                intent.putExtra("selectedEvent", selectedEvent);
                 startActivity(intent);
-                AddEventActivity.this.finish();
-
-
-            //    intent.putExtra("keyEvent", (CharSequence) createdEvent);
-
-
-
+                EditEventActivity.this.finish();
             }
         });
 
     }
 }
-
-

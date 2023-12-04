@@ -1,27 +1,23 @@
 package com.example.erienews2;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import com.google.firebase.Firebase;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.security.Timestamp;
-import java.sql.Time;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EventDescActivity extends AppCompatActivity
-{
+public class EventDescEditActivity extends AppCompatActivity {
     EditText eventAddress;
     EditText eventDesc;
 
@@ -32,33 +28,38 @@ public class EventDescActivity extends AppCompatActivity
     String eventName;
     String eventStart;
     String eventEnd;
-
     private DatabaseReference mDatabase;
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_description);
 
+        //Get the event that was passed here
+        Intent intent = getIntent();
+        Event selectedEvent = (Event) intent.getSerializableExtra("selectedEvent");
+
         FirebaseApp.initializeApp(this);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         eventDesc = findViewById(R.id.eventDesc);
+        eventDesc.setText(selectedEvent.getDescription());
+
         eventAddress = findViewById(R.id.eventAddress);
+        eventAddress.setText(selectedEvent.getAddress());
 
         backButton = findViewById(R.id.button4);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EventDescActivity.this, MainActivity.class);
+                Intent intent = new Intent(EventDescEditActivity.this, MainActivity.class);
                 startActivity(intent);
-                EventDescActivity.this.finish();
+                EventDescEditActivity.this.finish();
             }
         });
 
         nextButton = findViewById(R.id.button5);
+
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //    Intent intent = new Intent(EventDescActivity.this, AddEventActivity.class);
                 createdEvent = new Event();
                 createdEvent.setDescription(eventDesc.getText().toString());
                 createdEvent.setAddress(eventAddress.getText().toString());
@@ -72,11 +73,14 @@ public class EventDescActivity extends AppCompatActivity
 
                 createdEvent.setEventOrganizerUsername(accountUsername);
 
-                mDatabase.child("Events").child(createdEvent.getUserID()).setValue(eventMap(createdEvent, createdEvent.getName(), createdEvent.getEventOrganizerUsername(), createdEvent.getAddress(), createdEvent.getStartTime(), createdEvent.getEndTime(), createdEvent.getDescription()));
+                DatabaseReference eventRef = mDatabase.child("Events").child(selectedEvent.getUserID());
 
-                Intent intent = new Intent(EventDescActivity.this, MainActivity.class);
+                eventRef.updateChildren(eventMap(createdEvent, createdEvent.getName(), createdEvent.getEventOrganizerUsername(), createdEvent.getAddress(), createdEvent.getStartTime(), createdEvent.getEndTime(), createdEvent.getDescription()));
+
+                //Move to back to main activity
+                Intent intent = new Intent(EventDescEditActivity.this, MainActivity.class);
                 startActivity(intent);
-                EventDescActivity.this.finish();
+                EventDescEditActivity.this.finish();
             }
 
 

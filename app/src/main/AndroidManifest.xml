@@ -71,6 +71,21 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".EditEventListActivity"
+            android:exported="true">
+        </activity>
+
+        <activity
+            android:name=".EditEventActivity"
+            android:exported="true">
+        </activity>
+
+        <activity
+            android:name=".EventDescEditActivity"
+            android:exported="true">
+        </activity>
+
 
         <activity
             android:name=".FriendsListActivity"

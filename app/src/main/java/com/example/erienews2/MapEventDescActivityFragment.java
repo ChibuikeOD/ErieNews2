@@ -38,7 +38,7 @@ public class MapEventDescActivityFragment extends Fragment {
 
             //Description
             TextView eventDescription = view.findViewById(R.id.eventDescription);
-            eventDescription.setText(event.getDesription());
+            eventDescription.setText(event.getDescription());
 
             //Time
             String startDateTime = ((event.getStartTime().getMonth() + 1) + "/" + event.getStartTime().getDate() + "/" + event.getStartTime().getYear() + " " + event.getStartTime().getHours() + ":" + String.format("%02d", event.getStartTime().getMinutes()));

@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView mapImage;
     Button friendListButton;
     Button createEventButton;
+    Button editEventButton;
 
     Account loggedUser;
     String loggedUname;
@@ -65,6 +66,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, AddEventActivity.class);
+                startActivity(intent);
+
+                MainActivity.this.finish();
+            }
+        });
+
+        editEventButton = findViewById(R.id.editEventButton);
+        editEventButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(MainActivity.this, EditEventListActivity.class);
                 startActivity(intent);
 
                 MainActivity.this.finish();

@@ -7,11 +7,17 @@
     tools:context=".MapsActivity"
     >
 
-    <Button
-        android:id="@+id/backButton"
+    <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_height="wrap_content"
-        android:text="Back"/>
+        app:cardCornerRadius="15dp">
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"/>
+    </androidx.cardview.widget.CardView>
 
     <androidx.fragment.app.FragmentContainerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"

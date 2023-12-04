@@ -75,6 +75,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClick(View v) {
                 Intent intent = new Intent(MapsActivity.this, MainActivity.class);
                 startActivity(intent);
+                MapsActivity.this.finish();
             }
         });
 
@@ -238,7 +239,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 for (DataSnapshot eventSnapshot : dataSnapshot.getChildren()) {
                     //Create instance of event
                     Event newEvent = eventSnapshot.getValue(Event.class);
-                    newEvent.setDesription(eventSnapshot.child("eventDesc").getValue(String.class));
+                    newEvent.setDescription(eventSnapshot.child("eventDesc").getValue(String.class));
                     newEvent.setAddress(eventSnapshot.child("eventAddress").getValue(String.class));
                     newEvent.setName(eventSnapshot.child("eventName").getValue(String.class));
                     newEvent.setStartTime(eventSnapshot.child("eventStart").getValue(Date.class));

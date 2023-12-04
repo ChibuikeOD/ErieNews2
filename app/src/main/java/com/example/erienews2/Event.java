@@ -11,11 +11,12 @@ public class Event implements Serializable
 {
     private String userID;
     private String name;
+    private String eventOrganizerUsername;
     private String eventDate;
     private Date startTime;
     private Date endTime;
 
-    private String desription;
+    private String description;
     private String address;
 
     private Account[] attendees;
@@ -24,17 +25,19 @@ public class Event implements Serializable
     {
         userID = UUID.randomUUID().toString(); //generates user id on create
     }
+    public Event(String userID) { this.userID = userID;}
     public void setName(String nName)
     {
         name = nName;
     }
+    public void setEventOrganizerUsername(String username){eventOrganizerUsername = username;}
 
     public void setAddress(String address) {
         this.address = address;
     }
 
-    public void setDesription(String desription) {
-        this.desription = desription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setEndTime(Date endTime) {
@@ -53,6 +56,7 @@ public class Event implements Serializable
     {
         return this.name;
     }
+    public String getEventOrganizerUsername(){return eventOrganizerUsername;}
 
     public String getAddress(){ return this.address; }
 
@@ -76,9 +80,9 @@ public class Event implements Serializable
         return this.userID;
     }
 
-    public String getDesription()
+    public String getDescription()
     {
-        return this.desription;
+        return this.description;
     }
 
     public Account[] getAttendees() {
