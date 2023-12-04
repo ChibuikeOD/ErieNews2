@@ -1,17 +1,23 @@
 package com.example.erienews2;
 
+import static androidx.fragment.app.FragmentManager.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,7 +27,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AddFriendActivity extends AppCompatActivity {
 
@@ -52,14 +60,16 @@ public class AddFriendActivity extends AppCompatActivity {
 
 
         FirebaseApp.initializeApp(this);
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
+        DatabaseReference friendsRef = FirebaseDatabase.getInstance().getReference("users");
+
+
 
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
 
         Intent intent1 = getIntent();
         loggedUser = (Account)intent1.getSerializableExtra("loggedUser");
-
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
         if(loggedUser == null)
         {
@@ -68,7 +78,7 @@ public class AddFriendActivity extends AppCompatActivity {
             loggedUser = blankUser;
         }
         nameView.setText(loggedUser.getUsername());
-        DatabaseReference accountRef = FirebaseDatabase.getInstance().getReference().child("users").child(loggedUser.getUsername());
+       // DatabaseReference accountRef = FirebaseDatabase.getInstance().getReference().child("users").child(loggedUser.getUsername());
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -76,7 +86,7 @@ public class AddFriendActivity extends AppCompatActivity {
 
                    friendName = FriendName.getText().toString();
 
-                   Query query = databaseReference.orderByChild("username").equalTo(friendName);
+                   Query query = friendsRef.orderByChild("username").equalTo(friendName);
 
                    query.addListenerForSingleValueEvent(new ValueEventListener() {
                        @Override
@@ -85,13 +95,31 @@ public class AddFriendActivity extends AppCompatActivity {
                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                    newFriend = snapshot.getValue(Account.class);
                                    if (newFriend != null) {
+                                   //    List<Account> currentList;
+                                  //     currentList = loggedUser.getFriendsList(); //get current friend list
                                        loggedUser.addFriend(newFriend);
-                                       List<Account> currentList;
-                                       currentList = loggedUser.getFriendsList(); //get current friend list
-                                       currentList.add(newFriend);
-                                       loggedUser.setFriendsList(currentList);
 
-                                       accountRef.setValue(loggedUser);
+                                       mDatabase.child("users").child(loggedUser.getUserID()).setValue(toMap(loggedUser, loggedUser.getUsername(), loggedUser.getPassword(), loggedUser.getFriendsList()))
+                                               .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                   @SuppressLint("RestrictedApi")
+                                                   @Override
+                                                   public void onSuccess(Void aVoid) {
+                                                       Log.d(TAG, "Success");
+                                                   }
+                                               })
+                                               .addOnFailureListener(new OnFailureListener() {
+                                                   @SuppressLint("RestrictedApi")
+                                                   @Override
+                                                   public void onFailure(@NonNull Exception e) {
+                                                       // Handle the error
+                                                       Log.e(TAG, "Failure");
+                                                   }
+                                               });
+
+                             //          currentList.add(newFriend);
+                             //          loggedUser.setFriendsList(currentList);
+
+                                       // friendsRef.setValue(loggedUser);
                                    }
                                 //   else
                                 //   {
@@ -102,7 +130,7 @@ public class AddFriendActivity extends AppCompatActivity {
                                    Toast.makeText(context, "User found: " + newFriend.getUsername(), duration).show();
 
                            }
-                               Toast.makeText(context, "Snapshot doesn't exist", duration).show();
+
 
                        }
 
@@ -131,6 +159,8 @@ public class AddFriendActivity extends AppCompatActivity {
 
         });
 
+
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -145,5 +175,14 @@ public class AddFriendActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public Map<String, Object> toMap(Account acc, String uName, String pass, List<Account> friends) //function to change account object into a map, to be uploaded into the database
+    {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("username", uName);
+        result.put("password", pass);
+        result.put("friendsList", friends);
+        return result;
     }
 }
