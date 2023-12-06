@@ -93,7 +93,8 @@ public class AddFriendActivity extends AppCompatActivity {
                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                   newFriend = snapshot.getValue(Account.class);
+                                   newFriend = dataSnapshot.getValue(Account.class);
+                               }
                                    if (newFriend != null) {
                                    //    List<Account> currentList;
                                   //     currentList = loggedUser.getFriendsList(); //get current friend list
@@ -129,7 +130,7 @@ public class AddFriendActivity extends AppCompatActivity {
 
                                    Toast.makeText(context, "User found: " + newFriend.getUsername(), duration).show();
 
-                           }
+
 
 
                        }

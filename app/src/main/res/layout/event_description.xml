@@ -3,9 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
+    android:background="@drawable/bgb"
 
     >
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="match_parent"
+        android:layout_height="0.2in"
+        android:src="@drawable/brown2"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/brown2"
+        />
 
 
     <ImageView
@@ -21,6 +30,7 @@
         android:layout_height="3in"
         android:layout_alignParentBottom="true"
         app:cardCornerRadius="35dp"
+        app:cardBackgroundColor="#d7a45a"
 
         >
 
@@ -36,7 +46,11 @@
                 android:layout_height="wrap_content"
                 android:text = "Add Event Description"
                 android:textSize="25sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:fontFamily="@font/eriega"
+                android:textColor="@color/white"
+
+                />
 
             <TextView
                 android:layout_width="match_parent"
@@ -44,18 +58,24 @@
                 android:text = "Event Address"
                 android:layout_marginTop="10dp"
                 android:textSize="18dp"
+                android:fontFamily="@font/eriega"
+                android:textColor="@color/white"
                 />
             <EditText
                 android:id = "@+id/eventAddress"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:hint = "Address"/>
+                android:hint = "Address"
+                android:textColor="@color/white"
+                />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text = "Event Description"
                 android:textSize="18dp"
                 android:layout_marginTop="25dp"
+                android:fontFamily="@font/eriega"
+                android:textColor="@color/white"
                 />
 
             <EditText
@@ -63,7 +83,9 @@
                 android:layout_width="match_parent"
                 android:layout_height= "180dp"
                 android:hint = "Event Description..."
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
