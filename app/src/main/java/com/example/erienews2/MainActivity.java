@@ -27,12 +27,13 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         loggedUser = (Account)intent.getSerializableExtra("loggedUser");
-
+        Uname = findViewById(R.id.textView15);
         if(loggedUser == null)
         {
             Account blankUser = new Account();
             blankUser.setUsername("blank User");
             loggedUser = blankUser;
+            Uname.setVisibility(View.GONE);
         }
 
         Account def = new Account();
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Uname = findViewById(R.id.textView15);
+
 
 
 

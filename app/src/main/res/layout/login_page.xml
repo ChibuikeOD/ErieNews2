@@ -6,8 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@drawable/bg"
+    android:background="@drawable/bgb"
     tools:context=".LoginActivity">
+
+
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="match_parent"
+        android:layout_height="0.2in"
+        android:src="@drawable/brown2"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/brown2"
+        />
+
 
     <ImageView
         android:id="@+id/imageView3"
@@ -22,6 +34,7 @@
         android:layout_alignParentBottom="true"
         android:layout_height="3in"
         app:cardCornerRadius="35dp"
+        app:cardBackgroundColor="#d7a45a"
 
         >
 
@@ -38,13 +51,19 @@
                 android:layout_height="wrap_content"
                 android:text="Welcome"
                 android:textSize="32dp"
+                android:fontFamily="@font/eriega"
+                android:textColor="@color/white"
+                android:layout_marginBottom="5sp"
+
                 />
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Please Log in" />
+                android:text="Please Log in"
+                android:fontFamily="@font/eriega"
+                android:textColor="@color/white"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="40dp"/>
@@ -56,6 +75,8 @@
                 android:layout_height="wrap_content"
                 android:text="Username"
                 android:textStyle="bold"
+                android:fontFamily="@font/eriega"
+                android:textColor="@color/white"
 
 
                 />
@@ -65,7 +86,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:inputType="textEmailAddress"
-                android:hint="Username"/>
+                android:hint="Username"
+                android:fontFamily="@font/eriega"
+                android:textColor="@color/white"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="40dp"/>
@@ -75,6 +98,8 @@
                 android:layout_height="wrap_content"
                 android:text="Password"
                 android:textStyle="bold"
+                android:fontFamily="@font/eriega"
+                android:textColor="@color/white"
                 />
 
             <EditText
@@ -83,6 +108,8 @@
                 android:layout_height="50dp"
                 android:inputType="textPassword"
                android:hint="Password"
+                android:fontFamily="@font/eriega"
+                android:textColor="@color/white"
                 />
 
             <CheckBox

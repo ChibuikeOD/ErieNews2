@@ -6,8 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@drawable/bg"
+    android:background="@drawable/bgb"
     tools:context=".RegisterActivity">
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="match_parent"
+        android:layout_height="0.2in"
+        android:src="@drawable/brown2"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/brown2"
+        />
+
 
     <ImageView
         android:id="@+id/imageView5"
@@ -19,7 +29,9 @@
         android:layout_width="match_parent"
         android:layout_height="500dp"
         app:cardCornerRadius="35dp"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        app:cardBackgroundColor="#d7a45a"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,6 +46,8 @@
                 android:layout_height="wrap_content"
                 android:text="CREATE YOUR ACCOUNT"
                 android:textSize="25sp"
+                android:fontFamily="@font/eriega"
+                android:textColor="@color/white"
                 />
 
             <TextView
@@ -43,6 +57,8 @@
                 android:layout_marginTop="20dp"
                 android:text="Username"
                 android:textStyle="bold"
+                android:fontFamily="@font/eriega"
+                android:textColor="@color/white"
                 />
 
             <EditText
@@ -51,6 +67,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:hint = "Username"
+                android:fontFamily="@font/eriega"
+                android:textColor="@color/white"
                 />
 
             <TextView
@@ -60,6 +78,8 @@
                 android:layout_marginTop="20dp"
                 android:text="Email Address"
                 android:textStyle="bold"
+                android:fontFamily="@font/eriega"
+                android:textColor="@color/white"
                 />
 
             <EditText
@@ -68,6 +88,8 @@
                 android:layout_height="50dp"
                 android:hint = "Email Address"
                 android:inputType="textEmailAddress"
+                android:fontFamily="@font/eriega"
+                android:textColor="@color/white"
                 />
             <TextView
                 android:id="@+id/textView6"
@@ -76,6 +98,8 @@
                 android:layout_marginTop="20dp"
                 android:text="Password"
                 android:textStyle="bold"
+                android:fontFamily="@font/eriega"
+                android:textColor="@color/white"
 
                 />
             <EditText
@@ -84,6 +108,8 @@
                 android:layout_height="50dp"
                 android:hint = "Password"
                 android:inputType="textPassword"
+                android:fontFamily="@font/eriega"
+                android:textColor="@color/white"
 
                 />
 
@@ -94,6 +120,8 @@
                 android:layout_marginTop="20dp"
                 android:text="Re-Enter Password"
                 android:textStyle="bold"
+                android:fontFamily="@font/eriega"
+                android:textColor="@color/white"
 
                 />
             <EditText
@@ -102,6 +130,8 @@
                 android:layout_height="50dp"
                 android:hint = "Re-Enter Password"
                 android:inputType="textPassword"
+                android:fontFamily="@font/eriega"
+                android:textColor="@color/white"
                 />
 
             <LinearLayout
