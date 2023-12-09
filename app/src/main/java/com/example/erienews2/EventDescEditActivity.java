@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EventDescEditActivity extends AppCompatActivity {
+    TextView title;
     EditText eventAddress;
     EditText eventDesc;
 
@@ -33,10 +35,15 @@ public class EventDescEditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_description);
 
+        //Edit the title of this activity
+        title = findViewById(R.id.title);
+        title.setText("Edit Event Description");
+
         //Get the event that was passed here
         Intent intent = getIntent();
         Event selectedEvent = (Event) intent.getSerializableExtra("selectedEvent");
 
+        //Set the text edits to the events description and address
         FirebaseApp.initializeApp(this);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         eventDesc = findViewById(R.id.eventDesc);
@@ -45,7 +52,8 @@ public class EventDescEditActivity extends AppCompatActivity {
         eventAddress = findViewById(R.id.eventAddress);
         eventAddress.setText(selectedEvent.getAddress());
 
-        backButton = findViewById(R.id.button4);
+        //Set back button, which takes user back to the main activity
+        backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,11 +63,12 @@ public class EventDescEditActivity extends AppCompatActivity {
             }
         });
 
-        nextButton = findViewById(R.id.button5);
-
+        //When user clicks next button, create new event and upload it to database. Then take user back to the main activity
+        nextButton = findViewById(R.id.nextButton);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Create new event with attributes from this and last screen
                 createdEvent = new Event();
                 createdEvent.setDescription(eventDesc.getText().toString());
                 createdEvent.setAddress(eventAddress.getText().toString());
@@ -73,6 +82,7 @@ public class EventDescEditActivity extends AppCompatActivity {
 
                 createdEvent.setEventOrganizerUsername(accountUsername);
 
+                //Find the event to edit in the database and replace its attributes with those from the last two screens
                 DatabaseReference eventRef = mDatabase.child("Events").child(selectedEvent.getUserID());
 
                 eventRef.updateChildren(eventMap(createdEvent, createdEvent.getName(), createdEvent.getEventOrganizerUsername(), createdEvent.getAddress(), createdEvent.getStartTime(), createdEvent.getEndTime(), createdEvent.getDescription()));

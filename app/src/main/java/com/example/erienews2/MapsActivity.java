@@ -69,6 +69,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        //Set back button, which takes user back to main activity
         backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +124,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         pickTimeButton = findViewById(R.id.pickTimeButton);
         pickTimeButton.setText(c.get(Calendar.HOUR_OF_DAY) + ":" + String.format("%02d", c.get(Calendar.MINUTE)));
 
+        //On Click, bring up time listener, get new time, and reload event markers
         pickTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -220,12 +222,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         DatabaseReference eventsReference = database.getReference("Events");
 
         //Get all settings
-        //Time (Time/Date variable?)
+        //Time
         String selectedTime = pickTimeButton.getText().toString();
         //Date
         String selectedDate = pickDateButton.getText().toString();
         //Advanced (Not yet implemented)
 
+        //Clear all markers that are on the map
         mMap.clear();
 
         //Get all events that fit the above criteria from the database and put them into lists we can reference from
@@ -271,14 +274,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     //Get Address function
 //https://stackoverflow.com/questions/42626735/geocoding-converting-an-address-in-string-form-into-latlng-in-googlemaps-jav
     public LatLng getLocationFromAddress(Context context, String inputtedAddress) {
-
+        //Get the geocoder component
         Geocoder coder = new Geocoder(this, Locale.getDefault());
+        //List of addresses that may be the correct location
         List<Address> address;
+        //LatLng to be returned
         LatLng resLatLng = null;
 
         try {
-            // May throw an IOException
+            //Get addresses that
             address = coder.getFromLocationName(inputtedAddress, 5);
+
+            //Return nothing if the geocoder couldn't find anything
             if (address == null) {
                 return null;
             }
@@ -287,6 +294,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return null;
             }
 
+            //Get first (most likely) entry, and se the latitude and longitude to it
             Address location = address.get(0);
             location.getLatitude();
             location.getLongitude();
@@ -294,11 +302,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             resLatLng = new LatLng(location.getLatitude(), location.getLongitude());
 
         } catch (IOException ex) {
-
             ex.printStackTrace();
             Toast.makeText(context, ex.getMessage(), Toast.LENGTH_LONG).show();
         }
 
+        //Return the lat and long of this address
         return resLatLng;
     }
 

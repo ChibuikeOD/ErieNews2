@@ -30,8 +30,7 @@ import java.util.Date;
 
 public class AddEventActivity extends FragmentActivity {
     EditText eventName;
-
-
+    
     Button pickStartTimeButton;
     Button pickStartDateButton;
     Button pickEndTimeButton;
@@ -47,11 +46,10 @@ public class AddEventActivity extends FragmentActivity {
     Date endDateTime;
 
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_event);
 
-        eventName = findViewById(R.id.edittext12);
+        eventName = findViewById(R.id.eventNameInput);
 
         //Use to get date and time
         final Calendar c = Calendar.getInstance();
@@ -64,7 +62,7 @@ public class AddEventActivity extends FragmentActivity {
         pickStartDateButton = findViewById(R.id.pickStartDateButton);
         pickStartDateButton.setText((c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DAY_OF_MONTH) + "/" + c.get(Calendar.YEAR));
 
-        //On Click, bring up date listener, get new date, and reload event markers
+        //On Click, bring up date listener and get new start date for event
         pickStartDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,6 +96,7 @@ public class AddEventActivity extends FragmentActivity {
         pickStartTimeButton = findViewById(R.id.pickStartTimeButton);
         pickStartTimeButton.setText(0 + ":" + String.format("%02d", 0));
 
+        //On Click, bring up time listener and get new start time for event
         pickStartTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,7 +128,7 @@ public class AddEventActivity extends FragmentActivity {
         pickEndDateButton = findViewById(R.id.pickEndDateButton);
         pickEndDateButton.setText((c.get(Calendar.MONTH) + 1) + "/" + (c.get(Calendar.DAY_OF_MONTH) + 1) + "/" + c.get(Calendar.YEAR));
 
-        //On Click, bring up date listener, get new date, and reload event markers
+        //On Click, bring up date listener and get new end date for event
         pickEndDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,6 +162,7 @@ public class AddEventActivity extends FragmentActivity {
         pickEndTimeButton = findViewById(R.id.pickEndTimeButton);
         pickEndTimeButton.setText(0 + ":" + String.format("%02d", 0));
 
+        //On Click, bring up time listener and get new end time for event
         pickEndTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -190,6 +190,7 @@ public class AddEventActivity extends FragmentActivity {
             }
         });
 
+        //Set back button, which takes user back to main activity
         backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,21 +200,13 @@ public class AddEventActivity extends FragmentActivity {
                 AddEventActivity.this.finish();
             }
         });
+
+        //Set next button, which takes this information, packages it, and sends it and user to the Event Description Activity
         nextButton = findViewById(R.id.button3);
-
-
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-           //     Event newEvent = new Event();
-
-            //    newEvent.setName(eventName.getText().toString());
-           //     newEvent.setStartTime(startTime.getText().toString());
-            //    newEvent.setEndTime(endTime.getText().toString());
-           //     createdEvent = newEvent;
                 typedName = eventName.getText().toString();
-
 
                 Intent intent = new Intent(AddEventActivity.this, EventDescActivity.class);
                 intent.putExtra("keyName",typedName);
@@ -221,15 +214,8 @@ public class AddEventActivity extends FragmentActivity {
                 intent.putExtra("keyEnd", endDateTime);
                 startActivity(intent);
                 AddEventActivity.this.finish();
-
-
-            //    intent.putExtra("keyEvent", (CharSequence) createdEvent);
-
-
-
             }
         });
-
     }
 }
 

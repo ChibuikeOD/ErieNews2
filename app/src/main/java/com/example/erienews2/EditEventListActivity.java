@@ -27,7 +27,7 @@ public class EditEventListActivity extends AppCompatActivity {
     //Create a string list of event names
     ArrayList<String> eventNames;
 
-    ListView editEventList;
+    ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +41,7 @@ public class EditEventListActivity extends AppCompatActivity {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference eventsReference = database.getReference("Events");
 
+        //Get every event that this user is the owner of and show it
         eventsReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -64,13 +65,15 @@ public class EditEventListActivity extends AppCompatActivity {
                     }
                 }
 
+                //Add the names of the events to the event list
                 for (Event event : eventList){
                     eventNames.add(event.getName());
                 }
+
                 //Set the names of the event list
                 ArrayAdapter adapter = new ArrayAdapter<String>(EditEventListActivity.this, R.layout.edit_event_list_entry, eventNames);
 
-                ListView listView = findViewById(R.id.event_list);
+                listView = findViewById(R.id.event_list);
                 listView.setAdapter(adapter);
 
                 //Create listener for list view

@@ -42,6 +42,7 @@
 
             >
             <TextView
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text = "Add Event Description"
@@ -95,7 +96,7 @@
                 >
 
                 <Button
-                    android:id="@+id/button4"
+                    android:id="@+id/backButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -104,7 +105,7 @@
                     />
 
                 <Button
-                    android:id="@+id/button5"
+                    android:id="@+id/nextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

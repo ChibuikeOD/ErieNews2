@@ -44,7 +44,8 @@ public class EventDescActivity extends AppCompatActivity
         eventDesc = findViewById(R.id.eventDesc);
         eventAddress = findViewById(R.id.eventAddress);
 
-        backButton = findViewById(R.id.button4);
+        //Set back button, which takes user back to the main activity
+        backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,11 +55,12 @@ public class EventDescActivity extends AppCompatActivity
             }
         });
 
-        nextButton = findViewById(R.id.button5);
+        //When user clicks next button, create new event and upload it to database. Then take user back to the main activity
+        nextButton = findViewById(R.id.nextButton);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //    Intent intent = new Intent(EventDescActivity.this, AddEventActivity.class);
+                //Create new event with attributes from this and last screen
                 createdEvent = new Event();
                 createdEvent.setDescription(eventDesc.getText().toString());
                 createdEvent.setAddress(eventAddress.getText().toString());
@@ -66,20 +68,20 @@ public class EventDescActivity extends AppCompatActivity
                 createdEvent.setStartTime((Date) getIntent().getSerializableExtra("keyStart"));
                 createdEvent.setEndTime((Date) getIntent().getSerializableExtra("keyEnd"));
 
-                //Set username
+                //Set username from shared preferences
                 SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
                 String accountUsername = sharedPreferences.getString("username", null);
 
                 createdEvent.setEventOrganizerUsername(accountUsername);
 
+                //Create new event in the database
                 mDatabase.child("Events").child(createdEvent.getUserID()).setValue(eventMap(createdEvent, createdEvent.getName(), createdEvent.getEventOrganizerUsername(), createdEvent.getAddress(), createdEvent.getStartTime(), createdEvent.getEndTime(), createdEvent.getDescription()));
 
+                //Move back to the main activity
                 Intent intent = new Intent(EventDescActivity.this, MainActivity.class);
                 startActivity(intent);
                 EventDescActivity.this.finish();
             }
-
-
         });
     }
 

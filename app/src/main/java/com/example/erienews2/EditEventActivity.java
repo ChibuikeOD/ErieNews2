@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class EditEventActivity extends AppCompatActivity {
+    TextView title;
     EditText eventName;
     Button pickStartTimeButton;
     Button pickStartDateButton;
@@ -35,23 +37,28 @@ public class EditEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_event);
 
+        //Edit the title of this activity
+        title = findViewById(R.id.title);
+        title.setText("Edit Event");
+
         //Get the event that was passed here
         Intent intent = getIntent();
         Event selectedEvent = (Event) intent.getSerializableExtra("selectedEvent");
 
-        eventName = findViewById(R.id.edittext12);
+        //Set the name of the event to the saved event
+        eventName = findViewById(R.id.eventNameInput);
         eventName.setText(selectedEvent.getName());
 
         //Create start date at the current created day
-        startDateTime = new Date(selectedEvent.getStartTime().getYear(), selectedEvent.getStartTime().getMonth(), selectedEvent.getStartTime().getDay(), selectedEvent.getStartTime().getHours(), selectedEvent.getStartTime().getMinutes());
+        startDateTime = new Date(selectedEvent.getStartTime().getYear(), selectedEvent.getStartTime().getMonth(), selectedEvent.getStartTime().getDate(), selectedEvent.getStartTime().getHours(), selectedEvent.getStartTime().getMinutes());
         //Create end date at the current created day plus one
-        endDateTime = new Date(selectedEvent.getEndTime().getYear(), selectedEvent.getEndTime().getMonth(), selectedEvent.getEndTime().getDay(), selectedEvent.getEndTime().getHours(), selectedEvent.getEndTime().getMinutes());
+        endDateTime = new Date(selectedEvent.getEndTime().getYear(), selectedEvent.getEndTime().getMonth(), selectedEvent.getEndTime().getDate(), selectedEvent.getEndTime().getHours(), selectedEvent.getEndTime().getMinutes());
 
-        //Instantiate button and set text to current day
+        //Instantiate button and set text to events starting day
         pickStartDateButton = findViewById(R.id.pickStartDateButton);
-        pickStartDateButton.setText((startDateTime.getMonth() + 1) + "/" + startDateTime.getDay() + "/" + startDateTime.getYear());
+        pickStartDateButton.setText((startDateTime.getMonth() + 1) + "/" + startDateTime.getDate() + "/" + startDateTime.getYear());
 
-        //On Click, bring up date listener, get new date, and reload event markers
+        //On Click, bring up date listener and get new start date for event
         pickStartDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,10 +88,11 @@ public class EditEventActivity extends AppCompatActivity {
             }
         });
 
-        //Instantiate button and set text to current day
+        //Instantiate button and set text to starting time of event
         pickStartTimeButton = findViewById(R.id.pickStartTimeButton);
         pickStartTimeButton.setText(startDateTime.getHours() + ":" + String.format("%02d", startDateTime.getMinutes()));
 
+        //On Click, bring up time listener and get new start time for event
         pickStartTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,11 +120,11 @@ public class EditEventActivity extends AppCompatActivity {
             }
         });
 
-        //Instantiate button and set text to current day
+        //Instantiate button and set text to end date of selected event
         pickEndDateButton = findViewById(R.id.pickEndDateButton);
-        pickEndDateButton.setText((endDateTime.getMonth() + 1) + "/" + endDateTime.getDay() + "/" + endDateTime.getYear());
+        pickEndDateButton.setText((endDateTime.getMonth() + 1) + "/" + endDateTime.getDate() + "/" + endDateTime.getYear());
 
-        //On Click, bring up date listener, get new date, and reload event markers
+        //On Click, bring up date listener and get new end date for event
         pickEndDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,8 +156,9 @@ public class EditEventActivity extends AppCompatActivity {
 
         //Instantiate button and set text to current day
         pickEndTimeButton = findViewById(R.id.pickEndTimeButton);
-        pickEndTimeButton.setText(startDateTime.getHours() + ":" + String.format("%02d", startDateTime.getMinutes()));
+        pickEndTimeButton.setText(endDateTime.getHours() + ":" + String.format("%02d", endDateTime.getMinutes()));
 
+        //On Click, bring up time listener and get new end time for event
         pickEndTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,6 +186,7 @@ public class EditEventActivity extends AppCompatActivity {
             }
         });
 
+        //Set back button, which takes user back to main activity
         backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,6 +197,7 @@ public class EditEventActivity extends AppCompatActivity {
             }
         });
 
+        //Set next button, which takes this information, packages it, and sends it and user to the Edit Event Description Activity
         nextButton = findViewById(R.id.button3);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,6 +213,5 @@ public class EditEventActivity extends AppCompatActivity {
                 EditEventActivity.this.finish();
             }
         });
-
     }
 }
