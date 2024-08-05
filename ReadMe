@@ -1,0 +1,24 @@
+Erie Events Tracker
+An Android application built using Gradle and Kotlin to help users keep track of all the events happening in Erie. This app integrates Google APIs, utilizes Firebase for data storage, and offers push notifications to keep users informed of new events.
+
+Features
+Event Tracking: Discover and keep track of various events happening in Erie.
+Google API Integration: Leverage Google's location services for event mapping and geolocation.
+Firebase Database: Store and retrieve event data securely and efficiently.
+Push Notifications: Receive real-time updates and notifications about upcoming events.
+Getting Started
+Prerequisites
+Android Studio
+JDK 8 or higher
+Google API key
+Firebase project setup
+
+Usage
+Open the app to view a list of upcoming events in Erie.
+Use the map feature to see event locations.
+Enable push notifications to receive updates on new and upcoming events.
+
+
+Contact
+If you have any questions or suggestions, feel free to reach out to me at coo5135@psu.edu.
+
